@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 22, 2022 at 02:38 AM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.0.25
+-- Generation Time: Feb 15, 2025 at 02:25 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -30,13 +30,13 @@ SET time_zone = "+00:00";
 CREATE TABLE `child` (
   `child_id` int(3) NOT NULL,
   `child_name` varchar(100) NOT NULL,
-  `child_identifier` varchar(12) NOT NULL,
+  `child_identifier` varchar(15) NOT NULL,
   `child_gender` varchar(7) NOT NULL,
-  `child_height` int(3) NOT NULL,
-  `child_birthday` varchar(32) NOT NULL,
+  `child_height` varchar(3) DEFAULT NULL,
+  `child_birthday` varchar(255) DEFAULT NULL,
   `child_bloodtype` varchar(2) NOT NULL,
   `is_delete` bit(1) NOT NULL DEFAULT b'0',
-  `images` varchar(255) NOT NULL
+  `images` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -44,16 +44,16 @@ CREATE TABLE `child` (
 --
 
 INSERT INTO `child` (`child_id`, `child_name`, `child_identifier`, `child_gender`, `child_height`, `child_birthday`, `child_bloodtype`, `is_delete`, `images`) VALUES
-(1, 'Emma', '63194', 'Female', 161, 'August 22, 2034', 'O', b'0', 'emma.jpg'),
-(2, 'Norman', '22194', 'Male', 175, 'March 21, 2034', 'B', b'0', 'norman.jpg'),
-(3, 'Ray', '81194', 'Male', 177, 'January 16, 2034', 'AB', b'0', 'ray.jpg'),
-(4, 'Yugo', 'ETR3M8', 'Male', 182, 'December 24, 2017', 'A', b'0', 'yugo.jpg'),
-(5, 'Lucas', 'KGX2A7', 'Male', 186, 'November 28, 2017', 'B', b'0', 'lucas.jpg'),
-(6, 'Gillian', 'QI', 'Female', 150, 'September 30, 2030', 'B', b'0', 'gillian.jpg'),
-(7, 'Oliver', 'AII 866-890', 'Male', 174, 'October 25, 2028', 'B', b'1', 'oliver.jpg'),
-(8, 'Violet', 'DIV 332-198', 'Male', 146, 'June 12, 2032', 'AB', b'0', 'violet.jpg'),
-(9, 'Barbara', '-', 'Female', 160, 'June 18, 2031', 'AB', b'0', 'barbara.jpg'),
-(10, 'Zazie', '-', 'Male', 200, 'February 2, 2042', 'O', b'0', 'zazie.jpg');
+(1, 'Norman', '22194', 'Male', '175', '2034-03-21', 'B', b'1', 'norman.jpg'),
+(2, 'Emma', '63194', 'Female', '161', '2034-08-22', 'O', b'0', 'emma.jpg'),
+(3, 'Ray', '81194', 'Male', '177', '2034-01-16', 'AB', b'0', 'ray.jpg'),
+(4, 'Yugo', 'ETR3M8', 'Male', '182', '2017-12-24', 'A', b'0', 'yugo.jpg'),
+(5, 'Lucas', 'KGX2A7', 'Male', '186', '2017-11-28', 'B', b'0', 'lucas.jpg'),
+(6, 'Gillian', 'QI 231-493', 'Female', '150', '2030-09-30', 'B', b'0', 'gillian.jpg'),
+(7, 'Oliver', 'AII 866-890', 'Male', '174', '2028-10-25', 'B', b'0', 'oliver.jpg'),
+(8, 'Violet', 'DIV 332-198', 'Female', '146', '2032-06-12', 'AB', b'0', 'violet.jpg'),
+(9, 'Barbara', '-', 'Female', '160', '2031-06-18', 'AB', b'0', 'barbara.jpg'),
+(10, 'Zazie', '-', 'Male', '200', '2042-02-02', 'O', b'0', 'zazie.jpg');
 
 -- --------------------------------------------------------
 
@@ -77,12 +77,12 @@ CREATE TABLE `locations` (
 
 INSERT INTO `locations` (`locations_id`, `locations_name`, `locations_status`, `locations_type`, `child_id`, `observer_id`, `is_delete`) VALUES
 (1, 'Grace Field House', 'The Demon World', 'Plantation', 2, 1, b'0'),
-(2, 'Glory Bell', 'The Demon World', 'Plantation', 5, 2, b'0'),
-(3, 'Grand Valley', 'The Demon World', 'Plantation', 6, 3, b'0'),
+(2, 'Glory Pond', 'The Demon World', 'Plantation', 5, 2, b'0'),
+(3, 'Grand Valley', 'The Demon World', 'Plantation', 6, 3, b'1'),
 (4, 'Goodwill Ridge', 'The Demon World', 'Plantation', 9, 4, b'0'),
 (5, 'Lambda 7214', 'The Demon World', 'Plantation', 10, 5, b'0'),
-(6, 'The Promised Forest', 'The Demon World', '-', 1, 8, b'0'),
-(7, 'The Forest', 'The Demon World', '-', 3, 7, b'0'),
+(6, 'The Promise', 'The Demon World', '-', 1, 8, b'0'),
+(7, 'Demon Forest', 'The Demon World', '-', 3, 7, b'0'),
 (8, 'Goldy Pond', 'The Demon World', '-', 4, 9, b'0');
 
 -- --------------------------------------------------------
@@ -132,9 +132,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `username`, `password`, `created_at`) VALUES
-(1, 'naura', '$2y$10$wl.czQ6NxRZTcvCjFNWGQe6cA.sLAtb.pK62A40sD6/4V2/as.J7G', '2022-12-05 19:27:49'),
-(2, 'norman', '$2y$10$Qj4zELK3DMea.1nOb06I0.LZJr.xOr3K3uJ3P/KTFEOE98E6QoYpe', '2022-12-05 19:31:41'),
-(3, 'admin', '$2y$10$Y21SMCRIKjEMKgnqTcruZeHw7X6ZQ5NPa6E9Nr/a3EWF4nsQeUUAW', '2022-12-05 19:31:56');
+(3, 'admin', '$2y$10$Y21SMCRIKjEMKgnqTcruZeHw7X6ZQ5NPa6E9Nr/a3EWF4nsQeUUAW', '2022-12-05 19:31:56'),
+(5, 'norman', '$2y$10$HxNmRMVRw0WZhIUAvTI0MOCJGfOuG8Jg.k6IWugJFvYK.CLWPYa5m', '2025-02-15 08:21:02');
 
 --
 -- Indexes for dumped tables
@@ -175,13 +174,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `locations`
 --
 ALTER TABLE `locations`
-  MODIFY `locations_id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `locations_id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `user_id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
